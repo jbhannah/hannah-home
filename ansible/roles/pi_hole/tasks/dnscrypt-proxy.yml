@@ -1,0 +1,42 @@
+- name: Create dnscrypt-proxy system user
+  user:
+    name: dnscrypt-proxy
+    state: present
+    system: true
+    shell: /bin/false
+    create_home: true
+    home: /etc/dnscrypt-proxy
+
+- name: Get version number of latest dnscrypt-proxy release
+  command: |
+    curl -s https://api.github.com/repos/jedisct1/dnscrypt-proxy/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")'
+  register: dnscrypt-proxy-version
+
+- name: Create temporary dnscrypt-proxy working directory
+  tempfile:
+    state: directory
+  register: dnscrypt-proxy-tempdir
+
+- name: Get and extract latest dnscrypt-proxy release
+  unarchive:
+    remote_src: true
+    src: https://github.com/jedisct1/dnscrypt-proxy/releases/download/{{ dnscrypt-proxy-version.stdout }}/dnscrypt-proxy-linux_arm64-{{ dnscrypt-proxy-version.stdout }}.tar.gz
+    dest: "{{ dnscrypt-proxy-tempdir }}"
+
+- name: Place dnscrypt-proxy executable
+  command: mv {{ dnscrypt-proxy-tempdir }}/dnscrypt-proxy /usr/local/bin
+
+- name: Place dnscrypt-proxy configuration
+  copy:
+    src: etc/dnscrypt-proxy/dnscrypt-proxy.toml
+    dest: /etc/dnscrypt-proxy/dnscrypt-proxy.toml
+    owner: dnscrypt-proxy
+    group: dnscrypt-proxy
+
+- name: Install dnscrypt-proxy service
+  command: dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy.toml -service install
+
+- name: Start dnscrypt-proxy service
+  service:
+    name: dnscrypt-proxy
+    state: started

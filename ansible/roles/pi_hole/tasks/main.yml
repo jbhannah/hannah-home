@@ -16,6 +16,8 @@
     name: curl
     state: present
 
+- import_tasks: dnscrypt-proxy.yml
+
 - name: Run Pi-hole installation script
   command: curl -sSL https://install.pi-hole.net | bash -s -- --unattended
   args:
