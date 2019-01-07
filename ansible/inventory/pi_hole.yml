@@ -1,0 +1,13 @@
+all:
+  hosts:
+    bounsweet.local:
+    cherrim.local:
+  children:
+    raspberry_pi:
+      hosts:
+        bounsweet.local:
+        cherrim.local:
+    pi_hole:
+      hosts:
+        bounsweet.local:
+        cherrim.local:
