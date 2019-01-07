@@ -1,0 +1,5 @@
+dependencies:
+  - role: nginx
+    vars:
+      nginx_flavor: light
+  - role: php

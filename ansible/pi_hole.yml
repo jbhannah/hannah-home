@@ -1,0 +1,4 @@
+- hosts: pi_hole
+  roles:
+    - common
+    - pi_hole

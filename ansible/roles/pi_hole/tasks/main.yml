@@ -1,0 +1,36 @@
+- name: Place Pi-hole setup variables
+  template:
+    src: etc/pihole/setupVars.conf.j2
+    dest: /etc/pihole/setupVars.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Install bash
+  package:
+    name: bash
+    state: present
+
+- name: Install curl
+  package:
+    name: curl
+    state: present
+
+- name: Run Pi-hole installation script
+  command: curl -sSL https://install.pi-hole.net | bash -s -- --unattended
+  args:
+    creates: /usr/local/bin/pihole
+
+- name: Allow DNS over local IPv4
+  ufw:
+    rule: allow
+    name: dns
+    from_ip: 192.168.0.0/16
+
+- name: Allow DNS over local IPv6
+  ufw:
+    rule: allow
+    name: dns
+    from_ip: 2602:b8:6585:1e00::/64
+
+- import_tasks: dashboard.yml
