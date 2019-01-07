@@ -1,0 +1,4 @@
+- name: Install PHP
+  package:
+    name: php-fpm
+    state: present
