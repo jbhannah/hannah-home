@@ -1,15 +1,18 @@
 - name: Install UFW
+  become: true
   package:
     name: ufw
     state: present
 
 - name: Allow SSH over local IPv4
+  become: true
   ufw:
     rule: allow
     name: ssh
     from_ip: 192.168.0.0/16
 
 - name: Allow OpenSSH over local IPv6
+  become: true
   ufw:
     rule: allow
     name: ssh
