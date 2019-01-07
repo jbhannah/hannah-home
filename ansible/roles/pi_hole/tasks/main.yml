@@ -23,16 +23,6 @@
   args:
     creates: /usr/local/bin/pihole
 
-- name: Allow DNS over local IPv4
-  ufw:
-    rule: allow
-    name: dns
-    from_ip: 192.168.0.0/16
-
-- name: Allow DNS over local IPv6
-  ufw:
-    rule: allow
-    name: dns
-    from_ip: 2602:b8:6585:1e00::/64
-
 - import_tasks: dashboard.yml
+
+- import_tasks: ufw.yml
