@@ -1,0 +1,34 @@
+- name: Install nginx-{{ nginx_flavor }}
+  package:
+    name: nginx-{{ nginx_flavor }}
+    state: present
+
+- name: Enable and start nginx service
+  service:
+    name: nginx
+    enabled: true
+    state: started
+
+- name: Allow HTTP over local IPv4
+  ufw:
+    rule: allow
+    name: http
+    from_ip: 192.168.0.0/16
+
+- name: Allow HTTPS over local IPv4
+  ufw:
+    rule: allow
+    name: https
+    from_ip: 192.168.0.0/16
+
+- name: Allow HTTP over local IPv6
+  ufw:
+    rule: allow
+    name: http
+    from_ip: 2602:b8:6585:1e00::/64
+
+- name: Allow HTTPS over local IPv6
+  ufw:
+    rule: allow
+    name: https
+    from_ip: 2602:b8:6585:1e00::/64
