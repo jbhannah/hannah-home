@@ -11,7 +11,7 @@
     name: ssh
     from_ip: 192.168.0.0/16
 
-- name: Allow OpenSSH over local IPv6
+- name: Allow SSH over local IPv6
   become: true
   ufw:
     rule: allow
