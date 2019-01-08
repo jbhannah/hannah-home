@@ -18,10 +18,18 @@
 
 - import_tasks: dnscrypt-proxy.yml
 
+- name: Check if Pi-hole is installed
+  stat:
+    path: /usr/local/bin/pihole
+  register: pi_hole_exists
+
+- name: Reconfigure Pi-hole
+  command: /etc/.pihole/automated\ install/basic-install.sh --reconfigure --unattended
+  when: pi_hole_exists.stat.exists == true
+
 - name: Run Pi-hole installation script
-  command: curl -sSL https://install.pi-hole.net | bash -s -- --unattended
-  args:
-    creates: /usr/local/bin/pihole
+  shell: curl -sSL https://install.pi-hole.net | bash -s -- --unattended
+  when: pi_hole_exists.stat.exists == false
 
 - import_tasks: dashboard.yml
 
