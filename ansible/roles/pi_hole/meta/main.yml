@@ -1,4 +1,5 @@
 dependencies:
+  - role: ufw
   - role: nginx
     vars:
       nginx_flavor: light

@@ -1,6 +1,6 @@
 - hosts: all
   roles:
-    - common
+    - ufw
 
 - hosts: pi_hole
   serial: 1
