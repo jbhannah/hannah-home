@@ -14,8 +14,6 @@
     state: present
     cache_valid_time: "{{ apt_cache_valid_time }}"
 
-- import_tasks: dnscrypt-proxy.yml
-
 - name: Check if Pi-hole is installed
   stat:
     path: /usr/local/bin/pihole

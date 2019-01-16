@@ -4,3 +4,7 @@ dependencies:
     vars:
       nginx_flavor: light
   - role: php
+  - role: dnscrypt-proxy
+    vars:
+      dnscrypt_proxy_port: 5353
+      dnscrypt_proxy_ufw: false

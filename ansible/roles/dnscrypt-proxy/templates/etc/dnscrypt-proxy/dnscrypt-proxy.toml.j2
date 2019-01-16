@@ -33,7 +33,7 @@
 ## List of local addresses and ports to listen to. Can be IPv4 and/or IPv6.
 ## Note: When using systemd socket activation, choose an empty set (i.e. [] ).
 
-listen_addresses = ['127.0.0.1:5353', '[::1]:5353']
+listen_addresses = ['127.0.0.1:{{ dnscrypt_proxy_port }}', '[::1]:{{ dnscrypt_proxy_port }}']
 
 
 ## Maximum number of simultaneous client connections to accept
@@ -46,7 +46,7 @@ max_clients = 250
 ## Note (2): this feature is not compatible with systemd socket activation.
 ## Note (3): when using -pidfile, the PID file directory must be writable by the new user
 
-user_name = 'dnscrypt-proxy'
+user_name = '{{ dnscrypt_proxy_system_user }}'
 
 
 ## Require servers (from static + remote sources) to satisfy specific properties

@@ -1,0 +1,49 @@
+- name: Create dnscrypt-proxy system group
+  group:
+    name: "{{ dnscrypt_proxy_system_group }}"
+    system: true
+
+- name: Create dnscrypt-proxy system user
+  user:
+    name: "{{ dnscrypt_proxy_system_user }}"
+    groups: "{{ dnscrypt_proxy_system_group }}"
+    append: true
+    system: true
+    shell: /usr/sbin/nologin
+    home: /etc/dnscrypt-proxy
+
+- name: Create temporary dnscrypt-proxy working directory
+  tempfile:
+    state: directory
+  register: dnscrypt_proxy_tempdir
+
+- name: Get and extract latest dnscrypt-proxy release
+  unarchive:
+    remote_src: true
+    src: https://github.com/jedisct1/dnscrypt-proxy/releasees/download/{{ dnscrypt_proxy_version }}/dnscrypt-proxy-linux_arm64-{{ dnscrypt_proxy_version }}.tar.gz
+    dest: "{{ dnscrypt_proxy_tempdir }}"
+
+- name: Place dnscrypt-proxy executable
+  copy:
+    remote_src: true
+    src: "{{ dnscrypt_proxy_tempdir }}/dnscrypt-proxy"
+    dest: /usr/local/bin/dnscrypt-proxy
+
+- name: Place dnscrypt-proxy configuration
+  template:
+    src: etc/dnscrypt-proxy/dnscrypt-proxy.toml.j2
+    dest: /etc/dnscrypt-proxy/dnscrypt-proxy.toml
+    owner: "{{ dnscrypt_proxy_system_user }}"
+    group: "{{ dnscrypt_proxy_system_group }}"
+
+- name: Install dnscrypt-proxy service
+  command: dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy.toml -service install
+
+- name: Enable and start dnscrypt-proxy service
+  service:
+    name: dnscrypt-proxy
+    enabled: true
+    state: started
+
+- import_tasks: ufw
+  when: dnscrypt_proxy_ufw
