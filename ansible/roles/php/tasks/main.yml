@@ -1,4 +1,5 @@
 - name: Install PHP
-  package:
+  apt:
     name: php-fpm
     state: present
+    cache_valid_time: "{{ apt_cache_valid_time }}"

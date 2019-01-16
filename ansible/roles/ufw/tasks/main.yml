@@ -1,8 +1,9 @@
 - name: Install UFW
   become: true
-  package:
+  apt:
     name: ufw
     state: present
+    cache_valid_time: "{{ apt_cache_valid_time }}"
 
 - name: Allow SSH over local IPv4
   become: true

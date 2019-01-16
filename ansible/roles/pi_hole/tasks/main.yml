@@ -6,15 +6,13 @@
     group: root
     mode: 0644
 
-- name: Install bash
-  package:
-    name: bash
+- name: Install installation dependencies
+  apt:
+    name:
+      - bash
+      - curl
     state: present
-
-- name: Install curl
-  package:
-    name: curl
-    state: present
+    cache_valid_time: "{{ apt_cache_valid_time }}"
 
 - import_tasks: dnscrypt-proxy.yml
 

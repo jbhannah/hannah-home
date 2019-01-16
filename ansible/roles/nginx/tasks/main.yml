@@ -1,7 +1,8 @@
 - name: Install nginx-{{ nginx_flavor }}
-  package:
+  apt:
     name: nginx-{{ nginx_flavor }}
     state: present
+    cache_valid_time: "{{ apt_cache_valid_time }}"
 
 - name: Disable default nginx site
   file:
