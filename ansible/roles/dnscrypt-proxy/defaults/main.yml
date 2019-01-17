@@ -2,4 +2,4 @@ dnscrypt_proxy_port: 53
 dnscrypt_proxy_system_group: dnscrypt-proxy
 dnscrypt_proxy_system_user: dnscrypt-proxy
 dnscrypt_proxy_ufw: true
-dnscrypt_proxy_version: 2.0.19
+dnscrypt_proxy_version: "2.0.19"
