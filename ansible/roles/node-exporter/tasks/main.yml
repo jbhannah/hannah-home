@@ -1,1 +1,1 @@
-- import_tasks: ufw
+- import_tasks: ufw.yml
