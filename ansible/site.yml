@@ -1,6 +1,7 @@
 - hosts: all
   roles:
     - ufw
+    - node-exporter
 
 - hosts: pi_hole
   serial: 1

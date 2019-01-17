@@ -1,0 +1,13 @@
+- name: Allow node-exporter over local IPv4
+  ufw:
+    rule: allow
+    proto: tcp
+    port: "{{ node_exporter_port }}"
+    from_ip: 192.168.0.0/16
+
+- name: Allow node-exporter over local IPv6
+  ufw:
+    rule: allow
+    proto: tcp
+    port: "{{ node_exporter_port }}"
+    from_ip: 2602:b8:6585:1e00::/64
