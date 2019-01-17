@@ -37,6 +37,7 @@
     group: "{{ dnscrypt_proxy_system_group }}"
 
 - name: Install dnscrypt-proxy service
+  become: true
   command: dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy.toml -service install
 
 - name: Enable and start dnscrypt-proxy service
