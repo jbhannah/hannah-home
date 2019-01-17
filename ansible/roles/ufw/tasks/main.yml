@@ -5,18 +5,9 @@
     state: present
     cache_valid_time: "{{ apt_cache_valid_time }}"
 
-- name: Allow SSH over local IPv4
+- name: Allow incoming connections from specified sources
   become: true
   ufw:
     rule: allow
-    proto: tcp
-    port: ssh
-    from_ip: "{{ local_ipv4_subnet }}"
-
-- name: Allow SSH over local IPv6
-  become: true
-  ufw:
-    rule: allow
-    proto: tcp
-    port: ssh
-    from_ip: "{{ local_ipv6_subnet }}"
+    from_ip: "{{ item }}"
+  loop: "{{ ufw_allowed_ips }}"
