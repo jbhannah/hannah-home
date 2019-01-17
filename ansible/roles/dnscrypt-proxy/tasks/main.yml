@@ -20,13 +20,13 @@
 - name: Get and extract latest dnscrypt-proxy release
   unarchive:
     remote_src: true
-    src: https://github.com/jedisct1/dnscrypt-proxy/releasees/download/{{ dnscrypt_proxy_version }}/dnscrypt-proxy-linux_arm64-{{ dnscrypt_proxy_version }}.tar.gz
-    dest: "{{ dnscrypt_proxy_tempdir }}"
+    src: https://github.com/jedisct1/dnscrypt-proxy/releases/download/{{ dnscrypt_proxy_version }}/dnscrypt-proxy-linux_arm64-{{ dnscrypt_proxy_version }}.tar.gz
+    dest: "{{ dnscrypt_proxy_tempdir.path }}"
 
 - name: Place dnscrypt-proxy executable
   copy:
     remote_src: true
-    src: "{{ dnscrypt_proxy_tempdir }}/dnscrypt-proxy"
+    src: "{{ dnscrypt_proxy_tempdir.path }}/linux-arm64/dnscrypt-proxy"
     dest: /usr/local/bin/dnscrypt-proxy
 
 - name: Place dnscrypt-proxy configuration
@@ -45,5 +45,10 @@
     enabled: true
     state: started
 
-- import_tasks: ufw
+- name: Remove temporary dnscrypt-proxy working directory
+  file:
+    path: "{{ dnscrypt_proxy_tempdir.path }}"
+    state: absent
+
+- import_tasks: ufw.yml
   when: dnscrypt_proxy_ufw
